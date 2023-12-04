@@ -17,11 +17,10 @@ const Layout = ({ children }: LayoutProps) => {
     <>
       <Providers>
         <Head>
-          <title>Project name</title>
-          <meta content="Project description" name="description" />
+          <title>Linkster Dashboard</title>
+          <meta content="Dashboard for Event Organizers" name="description" />
           <link href="/favicon.ico" rel="icon" />
         </Head>
-        <Header />
         {children}
       </Providers>
     </>
