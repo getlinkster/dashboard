@@ -74,19 +74,23 @@ const defaultTheme = createTheme({
 });
 
 const Home: NextPageWithLayout = () => {
-	const router = useRouter();
-	const { address } = useAccount();
-	const { openConnectModal } = useConnectModal();
-  
-	const [isLoading, setIsLoading] = useState(true);
-  
-	useEffect(() => {
-	  if (!address && openConnectModal) {
-		openConnectModal();
-	  } else {
-		setIsLoading(false);
-	  }
-	}, [address, openConnectModal]);
+  const router = useRouter();
+  const { address } = useAccount();
+  const { openConnectModal } = useConnectModal();
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const checkWalletConnection = async () => {
+      if (!address && openConnectModal) {
+        openConnectModal();
+        setTimeout(checkWalletConnection, 1000);
+      } else {
+        setIsLoading(false);
+      }
+    };
+    checkWalletConnection();
+  }, [address, openConnectModal]);
 
   return (
     <ThemeProvider theme={defaultTheme}>
