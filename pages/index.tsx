@@ -21,6 +21,7 @@ import { Tier } from "@/utils/interfaces-types";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { useAccount } from "wagmi";
 import { useRouter } from "next/router";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 
 const tiers: Tier[] = [
   {
@@ -73,17 +74,19 @@ const defaultTheme = createTheme({
 });
 
 const Home: NextPageWithLayout = () => {
-  const router = useRouter();
-  const { address } = useAccount();
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    if (!address) {
-      router.push("/login");
-    } else {
-      setIsLoading(false);
-    }
-  }, [address, router]);
+	const router = useRouter();
+	const { address } = useAccount();
+	const { openConnectModal } = useConnectModal();
+  
+	const [isLoading, setIsLoading] = useState(true);
+  
+	useEffect(() => {
+	  if (!address && openConnectModal) {
+		openConnectModal();
+	  } else {
+		setIsLoading(false);
+	  }
+	}, [address, openConnectModal]);
 
   return (
     <ThemeProvider theme={defaultTheme}>
