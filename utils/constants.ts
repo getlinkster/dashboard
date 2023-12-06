@@ -65,3 +65,383 @@ export const boosters: Tier[] = [
     buttonVariant: "outlined",
   },
 ];
+
+export const ABI = [
+  {
+    inputs: [],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "costInEther",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "ethPriceInUSD",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "priceInUSD",
+        type: "uint256",
+      },
+    ],
+    name: "Console",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "payout",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_dataFeed",
+        type: "address",
+      },
+    ],
+    name: "setDataFeedAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_newPayoutAddress",
+        type: "address",
+      },
+    ],
+    name: "setPayoutAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "enum IEvent.SubscriptionType",
+        name: "_type",
+        type: "uint8",
+      },
+      {
+        internalType: "enum IEvent.SubscriptionTier",
+        name: "_tier",
+        type: "uint8",
+      },
+      {
+        internalType: "address",
+        name: "_subscriber",
+        type: "address",
+      },
+    ],
+    name: "subscribe",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_wallet",
+        type: "address",
+      },
+    ],
+    name: "canCreateEvent",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_wallet",
+        type: "address",
+      },
+    ],
+    name: "canMakeContact",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "EVENT_DURATION",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "EVENT_LIMITED_SUBSCRIPTION_PRICE",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "EVENT_UNLIMITED_SUBSCRIPTION_PRICE",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getChainlinkDataFeedLatestAnswer",
+    outputs: [
+      {
+        internalType: "int256",
+        name: "",
+        type: "int256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_wallet",
+        type: "address",
+      },
+    ],
+    name: "getSubscriptionInfo",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "enum IEvent.SubscriptionType",
+            name: "subscriptionType",
+            type: "uint8",
+          },
+          {
+            internalType: "enum IEvent.SubscriptionTier",
+            name: "subscriptionTier",
+            type: "uint8",
+          },
+          {
+            internalType: "uint256",
+            name: "endDate",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "subscriber",
+            type: "address",
+          },
+        ],
+        internalType: "struct IEvent.Subscription",
+        name: "",
+        type: "tuple",
+      },
+      {
+        components: [
+          {
+            internalType: "enum IEvent.SubscriptionType",
+            name: "subscriptionType",
+            type: "uint8",
+          },
+          {
+            internalType: "enum IEvent.SubscriptionTier",
+            name: "subscriptionTier",
+            type: "uint8",
+          },
+          {
+            internalType: "uint256",
+            name: "endDate",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "subscriber",
+            type: "address",
+          },
+        ],
+        internalType: "struct IEvent.Subscription",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "NETWORKING_BOOSTER_PRICE",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "NETWORKING_LIMITED_DURATION",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "NETWORKING_UNLIMITED_DURATION",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "NETWORKING_UNLIMITED_SUBSCRIPTION_PRICE",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "payoutAddress",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "enum IEvent.SubscriptionType",
+        name: "",
+        type: "uint8",
+      },
+      {
+        internalType: "enum IEvent.SubscriptionTier",
+        name: "",
+        type: "uint8",
+      },
+    ],
+    name: "subscriptionInfo",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "duration",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "priceInUSD",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "subsPerWallet",
+    outputs: [
+      {
+        internalType: "enum IEvent.SubscriptionType",
+        name: "subscriptionType",
+        type: "uint8",
+      },
+      {
+        internalType: "enum IEvent.SubscriptionTier",
+        name: "subscriptionTier",
+        type: "uint8",
+      },
+      {
+        internalType: "uint256",
+        name: "endDate",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "subscriber",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+] as const;

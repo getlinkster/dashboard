@@ -10,3 +10,14 @@ export interface Tier {
   buttonText: string;
   buttonVariant: "outlined" | "contained";
 }
+
+export enum SubscriptionType {
+  EVENT = 0,
+  NETWORKING = 1,
+}
+
+export enum SubscriptionTier {
+  NONE = 0,
+  LIMITED = 1,
+  UNLIMITED = 2,
+}

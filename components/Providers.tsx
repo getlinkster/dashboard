@@ -3,11 +3,11 @@
 import { RainbowKitProvider, getDefaultWallets } from "@rainbow-me/rainbowkit";
 import { ReactNode } from "react";
 import { WagmiConfig, configureChains, createConfig } from "wagmi";
-import { polygonMumbai, avalancheFuji } from "wagmi/chains";
+import { polygonMumbai, avalancheFuji, avalanche } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [polygonMumbai],
+  [polygonMumbai, avalancheFuji, avalanche],
   [publicProvider()]
 );
 

@@ -3,6 +3,8 @@
 import { ReactElement, useEffect, useState } from "react";
 import type { NextPageWithLayout } from "@/pages/_app";
 import { tiers, boosters } from "utils/constants";
+import useSubscribe from "@/utils/evm";
+import { SubscriptionType, SubscriptionTier } from "@/utils/interfaces-types";
 
 import Layout from "@/components/Layout";
 import LoadingSpinner from "@/components/LoadingSpinner";
@@ -41,6 +43,7 @@ const Home: NextPageWithLayout = () => {
   const router = useRouter();
   const { address } = useAccount();
   const { openConnectModal } = useConnectModal();
+  const { subscribe } = useSubscribe();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -153,7 +156,16 @@ const Home: NextPageWithLayout = () => {
                   </ul>
                 </CardContent>
                 <CardActions>
-                  <Button fullWidth variant={tier.buttonVariant}>
+                  <Button
+                    fullWidth
+                    variant={tier.buttonVariant}
+                    onClick={() => {
+                      const { _type, _tier } = mapTierToSubscription(
+                        tier.title
+                      );
+                      subscribe(_type, _tier);
+                    }}
+                  >
                     {tier.buttonText}
                   </Button>
                 </CardActions>
@@ -185,10 +197,8 @@ const Home: NextPageWithLayout = () => {
           component="p"
         >
           Elevate your event networking with our boosters—choose the 10-day
-          option for immediate, unlimited connections, or go for the year-long
-          package to enjoy unrestricted networking opportunities throughout the
-          entire year. Tailored for event organizers, our boosters empower you
-          to seamlessly connect and communicate with ease.
+          option or go for the year-long package to enjoy unrestricted
+          networking opportunities. Tailored for anyone.
         </Typography>
       </Container>
       {/* Pricing - Users */}
@@ -208,7 +218,7 @@ const Home: NextPageWithLayout = () => {
                   title={tier.title}
                   subheader={tier.subheader}
                   titleTypographyProps={{ align: "center" }}
-                  action={tier.title === "Pro" ? <StarIcon /> : null}
+                  action={tier.title === "1 year" ? <StarIcon /> : null}
                   subheaderTypographyProps={{
                     align: "center",
                   }}
@@ -259,6 +269,7 @@ const Home: NextPageWithLayout = () => {
           ))}
         </Grid>
       </Container>
+      {/* Spacing*/}
       <Container
         disableGutters
         maxWidth="sm"
@@ -271,6 +282,31 @@ const Home: NextPageWithLayout = () => {
 
 Home.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
+};
+
+const mapTierToSubscription = (selectedTier: string) => {
+  switch (selectedTier) {
+    case "Free":
+      return {
+        _type: SubscriptionType.EVENT,
+        _tier: SubscriptionTier.NONE,
+      };
+    case "Pro":
+      return {
+        _type: SubscriptionType.EVENT,
+        _tier: SubscriptionTier.LIMITED,
+      };
+    case "Unlimited":
+      return {
+        _type: SubscriptionType.EVENT,
+        _tier: SubscriptionTier.UNLIMITED,
+      };
+    default:
+      return {
+        _type: SubscriptionType.EVENT,
+        _tier: SubscriptionTier.NONE,
+      };
+  }
 };
 
 export default Home;
