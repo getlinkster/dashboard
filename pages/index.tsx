@@ -1,10 +1,12 @@
 "use client";
 
 import { ReactElement, useEffect, useState } from "react";
-import Layout from "@/components/Layout";
 import type { NextPageWithLayout } from "@/pages/_app";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { green, purple } from "@mui/material/colors";
+import { tiers, boosters } from "utils/constants";
+
+import Layout from "@/components/Layout";
+import LoadingSpinner from "@/components/LoadingSpinner";
+
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -17,50 +19,12 @@ import StarIcon from "@mui/icons-material/StarBorder";
 import Typography from "@mui/material/Typography";
 import GlobalStyles from "@mui/material/GlobalStyles";
 import Container from "@mui/material/Container";
-import { Tier } from "@/utils/interfaces-types";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { green, purple } from "@mui/material/colors";
+
 import { useAccount } from "wagmi";
 import { useRouter } from "next/router";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-
-const tiers: Tier[] = [
-  {
-    title: "Free",
-    subheader: "Best for Getting Started",
-    price: "0",
-    description: [
-      "5 events / month",
-      "50 attendees / event",
-      "1 event organizer / event",
-    ],
-    buttonText: "Sign up for free",
-    buttonVariant: "outlined",
-  },
-  {
-    title: "Pro",
-    subheader: "Best for Start-Ups",
-    price: "19",
-    description: [
-      "20 events / month",
-      "100 attendees / event",
-      "3 event organizers / event",
-    ],
-    buttonText: "Get started",
-    buttonVariant: "contained",
-  },
-  {
-    title: "Unlimited",
-    subheader: "Best for Large Companies",
-    price: "39",
-    description: [
-      "Unlimited events",
-      "Unlimited attendees",
-      "Unlimited event organizers",
-    ],
-    buttonText: "Contact us",
-    buttonVariant: "outlined",
-  },
-];
 
 const defaultTheme = createTheme({
   palette: {
@@ -100,7 +64,7 @@ const Home: NextPageWithLayout = () => {
       />
       <CssBaseline />
 
-      {/* Hero unit */}
+      {/* Header */}
       <Container
         disableGutters
         maxWidth="sm"
@@ -109,7 +73,7 @@ const Home: NextPageWithLayout = () => {
       >
         <Typography
           component="h1"
-          variant="h2"
+          variant="h3"
           align="center"
           color="text.primary"
           gutterBottom
@@ -127,7 +91,7 @@ const Home: NextPageWithLayout = () => {
           event organizers.
         </Typography>
       </Container>
-      {/* End hero unit */}
+      {/* Pricing - Event Organizers */}
       <Container maxWidth="md" component="main">
         <Grid container spacing={5} alignItems="flex-end">
           {tiers.map((tier) => (
@@ -198,9 +162,109 @@ const Home: NextPageWithLayout = () => {
           ))}
         </Grid>
       </Container>
-      {/* Footer */}
-
-      {/* End footer */}
+      {/* Header */}
+      <Container
+        disableGutters
+        maxWidth="sm"
+        component="main"
+        sx={{ pt: 8, pb: 6 }}
+      >
+        <Typography
+          component="h1"
+          variant="h3"
+          align="center"
+          color="text.primary"
+          gutterBottom
+        >
+          Booster Pricing
+        </Typography>
+        <Typography
+          variant="h5"
+          align="center"
+          color="text.secondary"
+          component="p"
+        >
+          Elevate your event networking with our boosters—choose the 10-day
+          option for immediate, unlimited connections, or go for the year-long
+          package to enjoy unrestricted networking opportunities throughout the
+          entire year. Tailored for event organizers, our boosters empower you
+          to seamlessly connect and communicate with ease.
+        </Typography>
+      </Container>
+      {/* Pricing - Users */}
+      <Container maxWidth="md" component="main">
+        <Grid container spacing={5} alignItems="flex-end">
+          {boosters.map((tier) => (
+            // Enterprise card is full width at sm breakpoint
+            <Grid
+              item
+              key={tier.title}
+              xs={12}
+              sm={tier.title === "Enterprise" ? 12 : 6}
+              md={4}
+            >
+              <Card>
+                <CardHeader
+                  title={tier.title}
+                  subheader={tier.subheader}
+                  titleTypographyProps={{ align: "center" }}
+                  action={tier.title === "Pro" ? <StarIcon /> : null}
+                  subheaderTypographyProps={{
+                    align: "center",
+                  }}
+                  sx={{
+                    backgroundColor: (theme) =>
+                      theme.palette.mode === "light"
+                        ? theme.palette.grey[200]
+                        : theme.palette.grey[700],
+                  }}
+                />
+                <CardContent>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "baseline",
+                      mb: 2,
+                    }}
+                  >
+                    <Typography
+                      component="h2"
+                      variant="h3"
+                      color="text.primary"
+                    >
+                      ${tier.price}
+                    </Typography>
+                  </Box>
+                  <ul>
+                    {tier.description.map((line) => (
+                      <Typography
+                        component="li"
+                        variant="subtitle1"
+                        align="center"
+                        key={line}
+                      >
+                        {line}
+                      </Typography>
+                    ))}
+                  </ul>
+                </CardContent>
+                <CardActions>
+                  <Button fullWidth variant={tier.buttonVariant}>
+                    {tier.buttonText}
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+      <Container
+        disableGutters
+        maxWidth="sm"
+        component="main"
+        sx={{ pt: 8, pb: 6 }}
+      ></Container>
     </ThemeProvider>
   );
 };
