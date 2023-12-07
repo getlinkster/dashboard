@@ -5,6 +5,8 @@ export type LayoutProps = {
 export interface Tier {
   title: string;
   subheader?: string;
+  type: SubscriptionType;
+  tier: SubscriptionTier;
   price: string;
   description: string[];
   buttonText: string;
@@ -20,4 +22,11 @@ export enum SubscriptionTier {
   NONE = 0,
   LIMITED = 1,
   UNLIMITED = 2,
+}
+
+export interface SubscriptionData {
+  endDate: bigint;
+  subscriber: string;
+  subscriptionTier: SubscriptionTier;
+  subscriptionType: SubscriptionType;
 }

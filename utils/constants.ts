@@ -1,10 +1,16 @@
-import { Tier } from "@/utils/interfaces-types";
+import {
+  SubscriptionTier,
+  SubscriptionType,
+  Tier,
+} from "@/utils/interfaces-types";
 
 export const tiers: Tier[] = [
   {
     title: "Free",
     subheader: "Best for Getting Started",
     price: "0",
+    type: SubscriptionType.EVENT,
+    tier: SubscriptionTier.NONE,
     description: [
       "5 events / month",
       "50 attendees / event",
@@ -17,6 +23,8 @@ export const tiers: Tier[] = [
     title: "Pro",
     subheader: "Best for Start-Ups",
     price: "19",
+    type: SubscriptionType.EVENT,
+    tier: SubscriptionTier.LIMITED,
     description: [
       "20 events / month",
       "100 attendees / event",
@@ -29,6 +37,8 @@ export const tiers: Tier[] = [
     title: "Unlimited",
     subheader: "Best for Large Companies",
     price: "39",
+    type: SubscriptionType.EVENT,
+    tier: SubscriptionTier.UNLIMITED,
     description: [
       "Unlimited events",
       "Unlimited attendees",
@@ -44,6 +54,8 @@ export const boosters: Tier[] = [
     title: "Free",
     subheader: "",
     price: "0",
+    type: SubscriptionType.NETWORKING,
+    tier: SubscriptionTier.NONE,
     description: ["50 messages / connection", "15 conversations / event"],
     buttonText: "Sign up for free",
     buttonVariant: "outlined",
@@ -52,6 +64,8 @@ export const boosters: Tier[] = [
     title: "10 days",
     subheader: "",
     price: "1.99",
+    type: SubscriptionType.NETWORKING,
+    tier: SubscriptionTier.LIMITED,
     description: ["Unlimited connections", "Unlimited messages"],
     buttonText: "Buy Now",
     buttonVariant: "contained",
@@ -60,6 +74,8 @@ export const boosters: Tier[] = [
     title: "1 year",
     subheader: "",
     price: "59",
+    type: SubscriptionType.NETWORKING,
+    tier: SubscriptionTier.UNLIMITED,
     description: ["Unlimited connections", "Unlimited messages"],
     buttonText: "Buy Now",
     buttonVariant: "outlined",

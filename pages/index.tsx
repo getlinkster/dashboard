@@ -4,7 +4,11 @@ import { ReactElement, useEffect, useState } from "react";
 import type { NextPageWithLayout } from "@/pages/_app";
 import { tiers, boosters } from "utils/constants";
 import useSubscribe from "@/utils/evm";
-import { SubscriptionType, SubscriptionTier } from "@/utils/interfaces-types";
+import {
+  SubscriptionType,
+  SubscriptionTier,
+  SubscriptionData,
+} from "@/utils/interfaces-types";
 
 import Layout from "@/components/Layout";
 import LoadingSpinner from "@/components/LoadingSpinner";
@@ -43,9 +47,16 @@ const Home: NextPageWithLayout = () => {
   const router = useRouter();
   const { address } = useAccount();
   const { openConnectModal } = useConnectModal();
-  const { subscribe } = useSubscribe();
+  const { subscribe, getSubscription } = useSubscribe();
 
   const [isLoading, setIsLoading] = useState(true);
+  const [subscriptionData, setSubscriptionData] = useState<any>(0);
+
+  const checkSubscription = async () => {
+    const data = await getSubscription();
+    console.log(data);
+    setSubscriptionData(data);
+  };
 
   useEffect(() => {
     const checkWalletConnection = async () => {
@@ -54,6 +65,7 @@ const Home: NextPageWithLayout = () => {
         setTimeout(checkWalletConnection, 1000);
       } else {
         setIsLoading(false);
+        checkSubscription();
       }
     };
     checkWalletConnection();
@@ -159,7 +171,9 @@ const Home: NextPageWithLayout = () => {
                   <Button
                     fullWidth
                     variant={tier.buttonVariant}
-                    disabled={tier.title === "Free"}
+                    disabled={
+                      tier.tier === subscriptionData[0]?.subscriptionTier
+                    }
                     onClick={() => {
                       const { _type, _tier } = mapTierToSubscription(
                         tier.title
@@ -263,7 +277,9 @@ const Home: NextPageWithLayout = () => {
                 <CardActions>
                   <Button
                     fullWidth
-                    disabled={tier.title === "Free"}
+                    disabled={
+                      tier.tier === subscriptionData[1]?.subscriptionTier
+                    }
                     variant={tier.buttonVariant}
                   >
                     {tier.buttonText}

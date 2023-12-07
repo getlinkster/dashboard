@@ -2,7 +2,11 @@
 import React, { useEffect, useState } from "react";
 
 import { ABI } from "utils/constants";
-import { SubscriptionTier, SubscriptionType } from "./interfaces-types";
+import {
+  SubscriptionTier,
+  SubscriptionType,
+  SubscriptionData,
+} from "./interfaces-types";
 
 import {
   createWalletClient,
@@ -16,6 +20,7 @@ import { avalanche, avalancheFuji, polygonMumbai } from "viem/chains";
 import "viem/window";
 import { useAccount } from "wagmi";
 import { usePublicClient } from "wagmi";
+import _default from "next/dist/client/router";
 
 const FUJI_CONTRACT_ADDRESS = "0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2";
 const MUMBAI_CONTRACT_ADDRESS = "0xC047161E02D16271a300af99487022C78Eb55E33";
@@ -65,7 +70,6 @@ export default function useSubscribe() {
       let _transport;
       if (window?.ethereum) {
         _transport = custom(window.ethereum);
-        console.log(_transport, "wats transport?");
       } else {
         const errorMessage =
           "MetaMask or another web3 wallet is not installed. Please install one to proceed.";
@@ -106,14 +110,38 @@ export default function useSubscribe() {
           account: account,
           value: _value,
         });
-        console.log(hash);
+        console.log("Transaction mined: ", hash);
       }
-
-      console.log("Transaction mined!");
     } catch (error) {
       console.error("Error:", error);
     }
   }
 
-  return { subscribe };
+  async function getSubscription(_type?: SubscriptionType) {
+    try {
+      if (account) {
+        const subscriptionData = await publicClient.readContract({
+          address: MUMBAI_CONTRACT_ADDRESS,
+          abi: ABI,
+          functionName: "getSubscriptionInfo",
+          args: [account],
+        });
+
+        console.log(subscriptionData);
+
+        switch (_type) {
+          case SubscriptionType.EVENT:
+            return subscriptionData[0];
+          case SubscriptionType.NETWORKING:
+            return subscriptionData[1];
+          default:
+            return subscriptionData;
+        }
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  return { subscribe, getSubscription };
 }
