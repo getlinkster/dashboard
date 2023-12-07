@@ -159,6 +159,7 @@ const Home: NextPageWithLayout = () => {
                   <Button
                     fullWidth
                     variant={tier.buttonVariant}
+                    disabled={tier.title === "Free"}
                     onClick={() => {
                       const { _type, _tier } = mapTierToSubscription(
                         tier.title
@@ -260,7 +261,11 @@ const Home: NextPageWithLayout = () => {
                   </ul>
                 </CardContent>
                 <CardActions>
-                  <Button fullWidth variant={tier.buttonVariant}>
+                  <Button
+                    fullWidth
+                    disabled={tier.title === "Free"}
+                    variant={tier.buttonVariant}
+                  >
                     {tier.buttonText}
                   </Button>
                 </CardActions>

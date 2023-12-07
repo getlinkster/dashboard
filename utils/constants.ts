@@ -22,7 +22,7 @@ export const tiers: Tier[] = [
       "100 attendees / event",
       "3 event organizers / event",
     ],
-    buttonText: "Get started",
+    buttonText: "Buy Now",
     buttonVariant: "contained",
   },
   {
@@ -34,7 +34,7 @@ export const tiers: Tier[] = [
       "Unlimited attendees",
       "Unlimited event organizers",
     ],
-    buttonText: "Contact us",
+    buttonText: "Buy Now",
     buttonVariant: "outlined",
   },
 ];
@@ -53,7 +53,7 @@ export const boosters: Tier[] = [
     subheader: "",
     price: "1.99",
     description: ["Unlimited connections", "Unlimited messages"],
-    buttonText: "Get started",
+    buttonText: "Buy Now",
     buttonVariant: "contained",
   },
   {
@@ -61,7 +61,7 @@ export const boosters: Tier[] = [
     subheader: "",
     price: "59",
     description: ["Unlimited connections", "Unlimited messages"],
-    buttonText: "Contact us",
+    buttonText: "Buy Now",
     buttonVariant: "outlined",
   },
 ];
