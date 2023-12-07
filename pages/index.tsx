@@ -175,10 +175,7 @@ const Home: NextPageWithLayout = () => {
                       tier.tier === subscriptionData[0]?.subscriptionTier
                     }
                     onClick={() => {
-                      const { _type, _tier } = mapTierToSubscription(
-                        tier.title
-                      );
-                      subscribe(_type, _tier);
+                      subscribe(tier.type, tier.tier);
                     }}
                   >
                     {tier.buttonText}
@@ -277,10 +274,13 @@ const Home: NextPageWithLayout = () => {
                 <CardActions>
                   <Button
                     fullWidth
+                    variant={tier.buttonVariant}
                     disabled={
                       tier.tier === subscriptionData[1]?.subscriptionTier
                     }
-                    variant={tier.buttonVariant}
+                    onClick={() => {
+                      subscribe(tier.type, tier.tier);
+                    }}
                   >
                     {tier.buttonText}
                   </Button>
@@ -303,31 +303,6 @@ const Home: NextPageWithLayout = () => {
 
 Home.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
-};
-
-const mapTierToSubscription = (selectedTier: string) => {
-  switch (selectedTier) {
-    case "Free":
-      return {
-        _type: SubscriptionType.EVENT,
-        _tier: SubscriptionTier.NONE,
-      };
-    case "Pro":
-      return {
-        _type: SubscriptionType.EVENT,
-        _tier: SubscriptionTier.LIMITED,
-      };
-    case "Unlimited":
-      return {
-        _type: SubscriptionType.EVENT,
-        _tier: SubscriptionTier.UNLIMITED,
-      };
-    default:
-      return {
-        _type: SubscriptionType.EVENT,
-        _tier: SubscriptionTier.NONE,
-      };
-  }
 };
 
 export default Home;
