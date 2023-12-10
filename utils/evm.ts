@@ -21,7 +21,7 @@ import "viem/window";
 import { useAccount } from "wagmi";
 import _default from "next/dist/client/router";
 
-const FUJI_CONTRACT_ADDRESS = "0x58A77ef8Fdb36a891825aa04464beD1511832bE7";
+const FUJI_CONTRACT_ADDRESS = "0x9AD840B246e09a5d093842a625D3Ec5991b73282";
 const MUMBAI_CONTRACT_ADDRESS = "0xC047161E02D16271a300af99487022C78Eb55E33";
 
 const mapDataToSubscriptionInfo = (
@@ -92,13 +92,13 @@ export default function useSubscribe() {
         functionName: "getChainlinkDataFeedLatestAnswer",
       });
 
-      console.log(chainlinkData);
+      console.log(chainlinkData, "subscriber information");
       const formatChainlinkData = Number(formatUnits(chainlinkData, 8));
 
       const packageCost = mapDataToSubscriptionInfo(_type, _tier);
       const costToUser = packageCost / formatChainlinkData;
       const _value = parseEther(String(costToUser));
-      console.log(packageCost, formatChainlinkData, _value, "hey");
+      console.log(packageCost, formatChainlinkData, _value, "final values");
 
       if (account) {
         const hash = await walletClient.writeContract({
