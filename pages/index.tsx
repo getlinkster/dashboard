@@ -75,7 +75,7 @@ const Home: NextPageWithLayout = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [ensName, setEnsName] = useState(null);
-  const [ensAvatar, setEnsAvatar] = useState(null);
+  const [ensAvatar, setEnsAvatar] = useState("");
   const [subscriptionData, setSubscriptionData] = useState<any>(0);
 
   const checkSubscription = async () => {
@@ -157,7 +157,7 @@ const Home: NextPageWithLayout = () => {
         >
           Welcome,
           {"\n"}
-          <Avatar imageUrl={ensAvatar ? ensAvatar : null} />{" "}
+          <Avatar imageUrl={ensAvatar} />{" "}
           {!ensName ? address : ensName}
           {"\n"}
         </Typography>
