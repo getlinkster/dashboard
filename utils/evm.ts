@@ -19,10 +19,9 @@ import {
 import { avalanche, avalancheFuji, polygonMumbai } from "viem/chains";
 import "viem/window";
 import { useAccount } from "wagmi";
-import { usePublicClient } from "wagmi";
 import _default from "next/dist/client/router";
 
-const FUJI_CONTRACT_ADDRESS = "0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2";
+const FUJI_CONTRACT_ADDRESS = "0x58A77ef8Fdb36a891825aa04464beD1511832bE7";
 const MUMBAI_CONTRACT_ADDRESS = "0xC047161E02D16271a300af99487022C78Eb55E33";
 
 const mapDataToSubscriptionInfo = (
@@ -58,8 +57,8 @@ const mapDataToSubscriptionInfo = (
 export default function useSubscribe() {
   //   const publicClient = usePublicClient();
   const publicClient = createPublicClient({
-    chain: polygonMumbai,
-    transport: http("https://rpc.ankr.com/polygon_mumbai"),
+    chain: avalancheFuji,
+    transport: http("https://rpc.ankr.com/avalanche_fuji"),
   });
 
   const { address: account } = useAccount();
@@ -78,7 +77,7 @@ export default function useSubscribe() {
 
       // Delcalre a Wallet Client
       const _walletClient = createWalletClient({
-        chain: polygonMumbai,
+        chain: avalancheFuji,
         transport: _transport,
       });
       setWalletClient(_walletClient);
@@ -88,7 +87,7 @@ export default function useSubscribe() {
   async function subscribe(_type: SubscriptionType, _tier: SubscriptionTier) {
     try {
       const chainlinkData = await publicClient.readContract({
-        address: MUMBAI_CONTRACT_ADDRESS,
+        address: FUJI_CONTRACT_ADDRESS,
         abi: ABI,
         functionName: "getChainlinkDataFeedLatestAnswer",
       });
@@ -103,7 +102,7 @@ export default function useSubscribe() {
 
       if (account) {
         const hash = await walletClient.writeContract({
-          address: MUMBAI_CONTRACT_ADDRESS,
+          address: FUJI_CONTRACT_ADDRESS,
           abi: ABI,
           functionName: "subscribe",
           args: [_type, _tier, account],
@@ -121,7 +120,7 @@ export default function useSubscribe() {
     try {
       if (account) {
         const subscriptionData = await publicClient.readContract({
-          address: MUMBAI_CONTRACT_ADDRESS,
+          address: FUJI_CONTRACT_ADDRESS,
           abi: ABI,
           functionName: "getSubscriptionInfo",
           args: [account],

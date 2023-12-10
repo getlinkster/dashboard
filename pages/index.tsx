@@ -28,9 +28,9 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { green, purple } from "@mui/material/colors";
 
-import { useAccount } from "wagmi";
+import { useAccount, useNetwork } from "wagmi";
 import { useRouter } from "next/router";
-import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { useChainModal, useConnectModal } from "@rainbow-me/rainbowkit";
 
 const defaultTheme = createTheme({
   palette: {
@@ -47,6 +47,8 @@ const Home: NextPageWithLayout = () => {
   const router = useRouter();
   const { address } = useAccount();
   const { openConnectModal } = useConnectModal();
+  const { openChainModal } = useChainModal();
+  const { chain } = useNetwork();
   const { subscribe, getSubscription } = useSubscribe();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -54,7 +56,6 @@ const Home: NextPageWithLayout = () => {
 
   const checkSubscription = async () => {
     const data = await getSubscription();
-    console.log(data);
     setSubscriptionData(data);
   };
 
@@ -68,8 +69,17 @@ const Home: NextPageWithLayout = () => {
         checkSubscription();
       }
     };
+    const checkChainConnection = async () => {
+      if (chain) {
+        if (chain.unsupported && openChainModal) {
+          openChainModal();
+          setTimeout(checkChainConnection, 1000);
+        }
+      }
+    };
     checkWalletConnection();
-  }, [address, openConnectModal]);
+    checkChainConnection();
+  }, [address, chain]);
 
   return (
     <ThemeProvider theme={defaultTheme}>

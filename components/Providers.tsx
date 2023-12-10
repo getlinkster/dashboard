@@ -7,7 +7,7 @@ import { polygonMumbai, avalancheFuji, avalanche } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [polygonMumbai, avalancheFuji, avalanche],
+  [avalancheFuji],
   [publicProvider()]
 );
 
