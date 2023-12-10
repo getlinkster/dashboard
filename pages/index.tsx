@@ -32,6 +32,8 @@ import { useAccount, useNetwork } from "wagmi";
 import { useRouter } from "next/router";
 import { useChainModal, useConnectModal } from "@rainbow-me/rainbowkit";
 
+require("dotenv").config();
+
 const defaultTheme = createTheme({
   palette: {
     primary: {
@@ -43,6 +45,26 @@ const defaultTheme = createTheme({
   },
 });
 
+interface AvatarProps {
+  imageUrl: string;
+}
+
+const Avatar: React.FC<AvatarProps> = ({ imageUrl = null }) => {
+  if (imageUrl) {
+    return (
+      <img
+        src={imageUrl}
+        style={{
+          borderRadius: "50%",
+          width: "50px",
+          height: "50px",
+          display: "inline",
+        }}
+      />
+    );
+  }
+};
+
 const Home: NextPageWithLayout = () => {
   const router = useRouter();
   const { address } = useAccount();
@@ -52,11 +74,42 @@ const Home: NextPageWithLayout = () => {
   const { subscribe, getSubscription } = useSubscribe();
 
   const [isLoading, setIsLoading] = useState(true);
+  const [ensName, setEnsName] = useState(null);
+  const [ensAvatar, setEnsAvatar] = useState(null);
   const [subscriptionData, setSubscriptionData] = useState<any>(0);
 
   const checkSubscription = async () => {
     const data = await getSubscription();
     setSubscriptionData(data);
+  };
+
+  const getENSName = async (address: `0x${string}`) => {
+    try {
+      const response = await fetch(
+        `https://api.everyname.xyz/reverse/social-profile?address=0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045&provider=ens`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "api-key":
+              "f6b31783fd5f3a3f2c73df0f4488fab9939e0abe211007175b27d6b7eeddc54b",
+          } as HeadersInit,
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("ENS Reverse Lookup Data:", data);
+        setEnsName(data.socialHandle);
+        setEnsAvatar(data.avatar);
+
+        // You can do something with the ENS data here
+      } else {
+        console.error("Failed to fetch ENS data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching ENS data:", error);
+    }
   };
 
   useEffect(() => {
@@ -65,6 +118,9 @@ const Home: NextPageWithLayout = () => {
         openConnectModal();
         setTimeout(checkWalletConnection, 1000);
       } else {
+        if (address) {
+          await getENSName(address);
+        }
         setIsLoading(false);
         checkSubscription();
       }
@@ -77,6 +133,7 @@ const Home: NextPageWithLayout = () => {
         }
       }
     };
+
     checkWalletConnection();
     checkChainConnection();
   }, [address, chain]);
@@ -89,12 +146,28 @@ const Home: NextPageWithLayout = () => {
       />
       <CssBaseline />
 
+      {/* Welcome Header */}
+      <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 8 }}>
+        <Typography
+          component="h5"
+          variant="h5"
+          align="center"
+          color="#9c27b0"
+          gutterBottom
+        >
+          Welcome,
+          {"\n"}
+          <Avatar imageUrl={ensAvatar ? ensAvatar : null} />{" "}
+          {!ensName ? address : ensName}
+          {"\n"}
+        </Typography>
+      </Container>
       {/* Header */}
       <Container
         disableGutters
         maxWidth="sm"
         component="main"
-        sx={{ pt: 8, pb: 6 }}
+        sx={{ pt: 0, pb: 6 }}
       >
         <Typography
           component="h1"
