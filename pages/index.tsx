@@ -75,7 +75,7 @@ const Home: NextPageWithLayout = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [ensName, setEnsName] = useState(null);
-  const [ensAvatar, setEnsAvatar] = useState("");
+  const [ensAvatar, setEnsAvatar] = useState("null");
   const [subscriptionData, setSubscriptionData] = useState<any>(0);
 
   const checkSubscription = async () => {
@@ -86,7 +86,7 @@ const Home: NextPageWithLayout = () => {
   const getENSName = async (address: `0x${string}`) => {
     try {
       const response = await fetch(
-        `https://api.everyname.xyz/reverse/social-profile?address=0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045&provider=ens`,
+        `https://api.everyname.xyz/reverse/social-profile?address=${address}&provider=ens`,
         {
           method: "GET",
           headers: {
@@ -157,8 +157,7 @@ const Home: NextPageWithLayout = () => {
         >
           Welcome,
           {"\n"}
-          <Avatar imageUrl={ensAvatar} />{" "}
-          {!ensName ? address : ensName}
+          <Avatar imageUrl={ensAvatar} /> {!ensName ? address : ensName}
           {"\n"}
         </Typography>
       </Container>
